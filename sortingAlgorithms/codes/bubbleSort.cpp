@@ -46,11 +46,11 @@ int main(int argc, char* argv[]) {
     bubbleSort(arr);
 
     auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double> elapsed = end - start;
+    chrono::duration<double, milli> elapsed = end - start;
 
     outFile << "Sorted Array\n";
     printVector(arr, outFile);
-    outFile << "Time taken: " << elapsed.count() << " seconds\n";
+    outFile << "Time taken: " << elapsed.count() << " ms\n";
 
     return 0;
 }

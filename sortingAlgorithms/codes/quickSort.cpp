@@ -2,9 +2,11 @@
 #include <chrono>
 using namespace std;
 
-// Función de partición para QuickSort
+// Función de partición para QuickSort con pivote aleatorio
 int partition(vector<int>& arr, int low, int high) {
-    int pivot = arr[high];
+    int pivotIndex = low + rand() % (high - low + 1);
+    int pivot = arr[pivotIndex];
+    swap(arr[pivotIndex], arr[high]); // Mueve el pivote al final
     int i = low - 1;
     for (int j = low; j <= high - 1; j++) {
         if (arr[j] < pivot) {
@@ -42,6 +44,15 @@ int main(int argc, char* argv[]) {
     ifstream inFile(argv[1]);
     ofstream outFile(argv[2]);
 
+    if (!inFile) {
+        cerr << "Error opening input file" << endl;
+        return 1;
+    }
+    if (!outFile) {
+        cerr << "Error opening output file" << endl;
+        return 1;
+    }
+
     vector<int> arr;
     int num;
     while (inFile >> num) {
@@ -49,15 +60,13 @@ int main(int argc, char* argv[]) {
     }
 
     auto start = chrono::high_resolution_clock::now();
-
     quickSort(arr, 0, arr.size() - 1);
-
     auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double> elapsed = end - start;
+    chrono::duration<double, milli> elapsed = end - start;
 
     outFile << "Sorted Array\n";
     printVector(arr, outFile);
-    outFile << "Time taken: " << elapsed.count() << " seconds\n";
+    outFile << "Time taken: " << elapsed.count() << " ms\n";
 
     return 0;
 }

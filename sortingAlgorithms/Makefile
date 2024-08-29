@@ -11,7 +11,7 @@ OUTDIR = output
 OUTDIR_BOGO = output_bogo
 
 # Archivos fuente y de salida
-SOURCES = quickSort.cpp mergeSort.cpp bubbleSort.cpp stlSort.cpp bogoSort.cpp
+SOURCES = quickSort.cpp mergeSort.cpp stlSort.cpp bubbleSort.cpp bogoSort.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 TARGETS = $(SOURCES:.cpp=)
 
