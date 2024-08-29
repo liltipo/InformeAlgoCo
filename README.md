@@ -1,6 +1,6 @@
 # Informe de Algoritmos y Complejidad
 
-Este repositorio incluye tres carpetas principales: `sortingAlgorithms` y `matrixMultiplication` `benchmarks`.
+Este repositorio incluye tres carpetas principales: `sortingAlgorithms`, `matrixMultiplication` y `benchmarks`.
 
 ## `sortingAlgorithms`
 
