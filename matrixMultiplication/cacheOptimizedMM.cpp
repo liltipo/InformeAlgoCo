@@ -4,6 +4,8 @@
 #include <chrono>
 
 using namespace std;
+
+// Estructura de datos para matrices
 template <typename T>
 struct AbstractMatrix
 {
@@ -15,13 +17,11 @@ struct AbstractMatrix
 
     T& at(size_t i, size_t j)
     {
-        // Row major
         return elements[j + i * cols];
     }
 
     const T& at(size_t i, size_t j) const
     {
-        // Row major
         return elements[j + i * cols];
     }
 
@@ -42,6 +42,7 @@ struct AbstractMatrix
 
 using Matrix = AbstractMatrix<float>;
 
+// Función para multiplicar dos matrices de forma con optimización de caché
 void MatMulCacheOptimizedOpenMP(Matrix& c, const Matrix& a, const Matrix& b)
 {
     fill_n(c.elements, c.rows * c.cols, 0.f);
@@ -53,13 +54,13 @@ void MatMulCacheOptimizedOpenMP(Matrix& c, const Matrix& a, const Matrix& b)
         {
             for (size_t j = 0; j < c.cols; j++)
             {
-                // No need for atomic add, because each row is processed by a single threat
                 c.at(i, j) += a.at(i, k) * b.at(k, j);
             }
         }
     }
 }
 
+// Función para medir el tiempo de ejecución
 template <void Function(Matrix&, const Matrix&, const Matrix&)>
 double measureTime(Matrix& c, const Matrix& a, const Matrix& b)
 {
@@ -84,12 +85,14 @@ int main(int argc, char* argv[]) {
 
     cout << "Matrix size: " << float(N * N * sizeof(Matrix::Type)) / 1e6 << " MB" << endl;
 
+    // Crear matrices A, B, C y R de tamaño NxN
     Matrix a, b, c, r;
 
     a.allocate(N, N);
     b.allocate(N, N);
     c.allocate(N, N);
 
+    // Inicializar matrices
     cout << "Init matrices" << endl;
     for (size_t i = 0; i < N*N; i++)
     {
@@ -97,10 +100,12 @@ int main(int argc, char* argv[]) {
         b.elements[i] = 2*i + 1;
     }
 
+    // Medir el tiempo de ejecución del algoritmo de Strassen
     cout << "MatMulCacheOptimizedOpenMP time: " << flush;
     const auto matMulCacheOptimizedOpenMPTime = measureTime<MatMulCacheOptimizedOpenMP>(c, a, b);
     cout << matMulCacheOptimizedOpenMPTime << " ms" << endl;
     
+    // Liberar memoria
     a.free();
     b.free();
     c.free();

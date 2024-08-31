@@ -3,6 +3,7 @@
 
 using namespace std;
 
+// Estructura de datos para matrices
 template <typename T>
 struct AbstractMatrix
 {
@@ -39,6 +40,7 @@ struct AbstractMatrix
 
 using Matrix = AbstractMatrix<float>;
 
+// Función para comparar dos matrices
 bool areMatricesEqual(const Matrix& a, const Matrix& b)
 {
     for (size_t i = 0; i < a.rows; i++)
@@ -55,6 +57,7 @@ bool areMatricesEqual(const Matrix& a, const Matrix& b)
     return true;
 }
 
+// Función para multiplicar dos matrices de forma ingenua
 void MatMul(Matrix& c, const Matrix& a, const Matrix& b)
 {
     fill_n(c.elements, c.rows * c.cols, 0.f);
@@ -71,6 +74,7 @@ void MatMul(Matrix& c, const Matrix& a, const Matrix& b)
     }
 }
 
+// Función para medir el tiempo de ejecución
 template <void Function(Matrix&, const Matrix&, const Matrix&)>
 double measureTime(Matrix& c, const Matrix& a, const Matrix& b)
 {
@@ -94,6 +98,7 @@ int main(int argc, char* argv[]) {
     size_t N = atoi(argv[1]);
     cout << "Matrix size: " << float(N * N * sizeof(Matrix::Type)) / 1e6 << " MB" << endl;
 
+    // Crear matrices A, B, C y R de tamaño NxN
     Matrix a, b, c, r;
 
     a.allocate(N, N);
@@ -101,6 +106,7 @@ int main(int argc, char* argv[]) {
     c.allocate(N, N);
     r.allocate(N, N);
 
+    // Inicializar matrices
     cout << "Init matrices" << endl;
     for (size_t i = 0; i < N*N; i++)
     {
@@ -108,10 +114,12 @@ int main(int argc, char* argv[]) {
         b.elements[i] = 2*i + 1;
     }
 
+    // Medir el tiempo de ejecución de la multiplicación de matrices
     cout << "MatMul time: " << flush;
     const auto matMulTime = measureTime<MatMul>(r, a, b);
     cout << matMulTime << " ms" << endl;
 
+    // Liberar memoria
     a.free();
     b.free();
     c.free();

@@ -178,14 +178,15 @@ int main(int argc, char* argv[]) {
     lld** A = new lld*[N];
     lld** B = new lld*[N];
 
+    // Inicializar matrices
     for (int i = 0; i < N; i++) {
 
         A[i] = new lld[N];
         B[i] = new lld[N];
         for (int j = 0; j < N; j++) {
 
-            A[i][j] = j+1; // Rellenar con valores aleatorios
-            B[i][j] = 2*j + 1; // Rellenar con valores aleatorios
+            A[i][j] = j+1; 
+            B[i][j] = 2*j + 1; 
         }
     }
 

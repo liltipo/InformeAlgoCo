@@ -16,7 +16,7 @@ OBJECTS = $(SOURCES:.cpp=.o)
 TARGETS = $(SOURCES:.cpp=)
 
 # Archivos de entrada y salida
-INPUT_FILES_COMMON = ordered.txt random.txt reversed.txt
+INPUT_FILES_COMMON = ordered.txt partially.txt random.txt reversed.txt
 INPUT_FILES_BOGO = orderedBogo.txt reversedBogo.txt randomBogo.txt
 INPUT_PATHS_COMMON = $(addprefix $(DATADIR)/, $(INPUT_FILES_COMMON))
 INPUT_PATHS_BOGO = $(addprefix $(DATADIR)/, $(INPUT_FILES_BOGO))

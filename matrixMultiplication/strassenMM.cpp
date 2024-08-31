@@ -2,6 +2,7 @@
 using namespace std;
 typedef long long lld;
 
+// Función para multiplicar matrices (se utiliza para matrices de tamaño 1x1)
 inline lld** MatrixMultiply(lld** a, lld** b, int n,
 									int l, int m)
 {
@@ -20,12 +21,14 @@ inline lld** MatrixMultiply(lld** a, lld** b, int n,
 	return c;
 }
 
+// Función para multiplicar matrices usando el algoritmo de Strassen
 inline lld** Strassen(lld** a, lld** b, int n,
 								int l, int m)
 {
 	if (n == 1 || l == 1 || m == 1)
 		return MatrixMultiply(a, b, n, l, m);
 
+    // Inicializar matrices
 	lld** c = new lld*[n];
 	for (int i = 0; i < n; i++)
 		c[i] = new lld[m];
@@ -66,6 +69,7 @@ inline lld** Strassen(lld** a, lld** b, int n,
 		}
 	}
 
+	// Calcular las 10 matrices S
 	lld*** s = new lld**[10];
 	for (int i = 0; i < 10; i++) {
 		switch (i) {
@@ -162,6 +166,7 @@ inline lld** Strassen(lld** a, lld** b, int n,
 		}
 	}
 
+    // Calcular los productos de Strassen
 	lld*** p = new lld**[7];
 	p[0] = Strassen(As[0][0], s[0], adjN, adjL, adjM);
 	p[1] = Strassen(s[1], Bs[1][1], adjN, adjL, adjM);
@@ -171,6 +176,7 @@ inline lld** Strassen(lld** a, lld** b, int n,
 	p[5] = Strassen(s[6], s[7], adjN, adjL, adjM);
 	p[6] = Strassen(s[8], s[9], adjN, adjL, adjM);
 
+    // Calcular las submatrices de C y combinarlas
 	for (int i = 0; i < adjN; i++) {
 		for (int j = 0; j < adjM; j++) {
 			c[i][j] = p[4][i][j] + p[3][i][j] - p[1][i][j] + p[5][i][j];
@@ -183,6 +189,7 @@ inline lld** Strassen(lld** a, lld** b, int n,
 		}
 	}
 
+	// Liberar memoria
 	for (int x = 0; x < 2; x++) {
 		for (int y = 0; y < 2; y++) {
 			for (int i = 0; i < adjN; i++) {
@@ -250,9 +257,11 @@ int main(int argc, char* argv[]) {
     size_t N = atoi(argv[1]);
     cout << "Matrix size: " << float(N * N * sizeof(int)) / 1e6 << " MB" << endl;
 
+	// Crear matrices A y B de tamaño NxN
     lld** matA = new lld*[N];
     lld** matB = new lld*[N];
 
+	// Inicializar matrices
     for (int i = 0; i < N; i++) {
 
         matA[i] = new lld[N];
@@ -263,6 +272,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
+	// Medir el tiempo de ejecución del algoritmo de Strassen
     auto start = chrono::steady_clock::now();
     lld** matC = Strassen(matA, matB, N, N, N);
     auto end = chrono::steady_clock::now();

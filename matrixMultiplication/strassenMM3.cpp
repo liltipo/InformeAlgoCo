@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// Estructura de datos para matrices
 template <typename T>
 struct AbstractMatrix
 {
@@ -16,13 +17,11 @@ struct AbstractMatrix
 
     T& at(size_t i, size_t j)
     {
-        // Row major
         return elements[j + i * cols];
     }
 
     const T& at(size_t i, size_t j) const
     {
-        // Row major
         return elements[j + i * cols];
     }
 
@@ -43,6 +42,7 @@ struct AbstractMatrix
 
 using Matrix = AbstractMatrix<float>;
 
+// Función para sumar dos matrices
 Matrix add(const Matrix& A, const Matrix& B, size_t N)
 {
     Matrix C;
@@ -59,6 +59,7 @@ Matrix add(const Matrix& A, const Matrix& B, size_t N)
     return C;
 }
 
+// Función para restar dos matrices
 Matrix subtract(const Matrix& A, const Matrix& B, size_t N)
 {
     Matrix C;
@@ -75,6 +76,7 @@ Matrix subtract(const Matrix& A, const Matrix& B, size_t N)
     return C;
 }
 
+// Función para multiplicar matrices usando el algoritmo de Strassen
 void strassen(Matrix &C, const Matrix &A, const Matrix &B, size_t N)
 {
     if (N == 1) {
@@ -84,6 +86,7 @@ void strassen(Matrix &C, const Matrix &A, const Matrix &B, size_t N)
 
     size_t K = N / 2;
 
+    // Inicializar matrices y dividir las matrices en submatrices
     Matrix A11, A12, A21, A22, B11, B12, B21, B22;
     Matrix C11, C12, C21, C22;
     A11.allocate(K, K); A12.allocate(K, K); A21.allocate(K, K); A22.allocate(K, K);
@@ -104,6 +107,7 @@ void strassen(Matrix &C, const Matrix &A, const Matrix &B, size_t N)
         }
     }
 
+    // Calcular los productos de Strassen
     Matrix S1 = subtract(B12, B22, K);
     Matrix S2 = add(A11, A12, K);
     Matrix S3 = add(A21, A22, K);
@@ -127,11 +131,13 @@ void strassen(Matrix &C, const Matrix &A, const Matrix &B, size_t N)
     strassen(P6, S7, S8, K);
     strassen(P7, S9, S10, K);
 
+    // Calcular las submatrices de C
     C11 = add(subtract(add(P5, P4, K), P2, K), P6, K);
     C12 = add(P1, P2, K);
     C21 = add(P3, P4, K);
     C22 = subtract(subtract(add(P5, P1, K), P3, K), P7, K);
 
+    // Combinar las submatrices en la matriz C
     for (size_t i = 0; i < K; i++) {
         for (size_t j = 0; j < K; j++) {
             C.at(i, j) = C11.at(i, j);
@@ -141,6 +147,7 @@ void strassen(Matrix &C, const Matrix &A, const Matrix &B, size_t N)
         }
     }
 
+    // Liberar memoria
     A11.free(); A12.free(); A21.free(); A22.free();
     B11.free(); B12.free(); B21.free(); B22.free();
     C11.free(); C12.free(); C21.free(); C22.free();
@@ -150,6 +157,7 @@ void strassen(Matrix &C, const Matrix &A, const Matrix &B, size_t N)
     P6.free(); P7.free();
 }
 
+// Función para medir el tiempo de ejecución
 template <void Function(Matrix&, const Matrix&, const Matrix&, size_t)>
 double measureTime(Matrix& c, const Matrix& a, const Matrix& b, size_t N)
 {
@@ -173,12 +181,14 @@ int main(int argc, char* argv[]) {
     size_t N = atoi(argv[1]);
     cout << "Matrix size: " << float(N * N * sizeof(Matrix::Type)) / 1e6 << " MB" << endl;
 
+    // Crear matrices A, B y C de tamaño NxN
     Matrix a, b, c;
 
     a.allocate(N, N);
     b.allocate(N, N);
     c.allocate(N, N);
 
+    // Inicializar matrices
     cout << "Init matrices" << endl;
     for (size_t i = 0; i < N*N; i++)
     {
@@ -186,10 +196,12 @@ int main(int argc, char* argv[]) {
         b.elements[i] = 2 * i + 1;
     }
 
+    // Medir el tiempo de ejecución del algoritmo de Strassen
     cout << "Strassen time: " << flush;
     const auto strassenTime = measureTime<strassen>(c, a, b, N);
     cout << strassenTime << " ms" << endl;
 
+    // Liberar memoria
     a.free();
     b.free();
     c.free();

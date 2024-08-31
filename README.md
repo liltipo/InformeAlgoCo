@@ -19,6 +19,7 @@ La carpeta `sortingAlgorithms` contiene dos subcarpetas:
      - Orden ascendente
      - Orden descendente
      - Orden aleatorio
+     - Orden parcial (solo 1,000,000 de elementos)
    - Además, incluye un conjunto especial de datos de 12 elementos para `bogoSort`.
 
 ### Makefile
@@ -51,10 +52,11 @@ En la carpeta `matrixMultiplication`, se incluye un `Makefile` que proporciona l
 
 **Nota:** No se incluye un dataset predefinido para la multiplicación de matrices, ya que cada archivo genera dos matrices del tamaño especificado en la entrada del `Makefile`.
 
-La carpeta `benchmarks`, contiene ocho imágenes:
+La carpeta `benchmarks`, contiene nueve imágenes:
 - Una para la multiplicación de matrices.
 - Seis imágenes para los algoritmos de ordenamiento, distribuidas de la siguiente manera:
   - Dos para orden ascendente (1,000,000 y 10,000 elementos).
   - Dos para orden descendente (mismos tamaños).
   - Dos para orden aleatorio (mismos tamaños).
+  - Una para orden parcial (1,000,000 elementos)
 - Una para `bogoSort` y su dataset.
