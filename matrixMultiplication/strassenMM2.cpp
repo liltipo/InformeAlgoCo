@@ -1,3 +1,5 @@
+//Utiliza parte de la implementación de: https://www.geeksforgeeks.org/strassens-matrix-multiplication-algorithm-implementation/
+
 #include <iostream>
 #include <cstdlib>
 #include <ctime>

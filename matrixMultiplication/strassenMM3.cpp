@@ -1,3 +1,5 @@
+// Utiliza parte de la implementación de: https://www.mgaillard.fr/2020/08/29/matrix-multiplication-optimizing.html
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>

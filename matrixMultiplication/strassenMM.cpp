@@ -1,3 +1,5 @@
+// Implementación de: https://www.geeksforgeeks.org/strassens-matrix-multiplication-algorithm-implementation/
+
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long lld;
